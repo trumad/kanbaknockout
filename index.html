@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KanbaKnockout</title>
+
+    <script src="/js/knockout.js"></script>
+    <script src="js/kanbaknockout.js"></script>
+    <link rel="stylesheet" href="styles/main.css">
+</head>
+<body>
+
+
+    <h1>KanbaKnockout</h1>
+
+    <div data-bind="text: message"></div>
+
+    <script>
+        function AppViewModel() {
+            this.message = ko.observable('Just getting started...');
+        }
+
+        var appViewModel = new AppViewModel();
+        ko.applyBindings(appViewModel);
+    </script>
+
+</body>
+</html>

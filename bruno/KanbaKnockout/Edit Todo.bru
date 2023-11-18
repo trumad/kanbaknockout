@@ -1,0 +1,15 @@
+meta {
+  name: Edit Todo
+  type: http
+  seq: 4
+}
+
+patch {
+  url: http://localhost:3000/todos/1
+  body: json
+  auth: none
+}
+
+body:json {
+  {"content": "patched todo"}
+}
