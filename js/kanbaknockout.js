@@ -1,6 +1,7 @@
 function AppViewModel() {
-    this.message = ko.observable('Just getting started....');
+    this.message = ko.observable('Just getting started...');
 }
 
-var appViewModel = new AppViewModel();
+    var appViewModel = new AppViewModel();
 ko.applyBindings(appViewModel);
+
