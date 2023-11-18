@@ -5,6 +5,9 @@ module.exports = {
         "es2021": true
     },
     "extends": "eslint:recommended",
+    "globals": {
+        "ko": true
+    },
     "overrides": [
         {
             "env": {
