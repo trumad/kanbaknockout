@@ -1,0 +1,25 @@
+.kanban-container {  display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 24fr;
+    gap: 0px 0px;
+    grid-auto-flow: row;
+    grid-template-areas:
+      "new-title in-progress-title done-title"
+      "new-swimlane in-progress-swimlane done-swimlane";
+  }
+  
+  .new-title { grid-area: new-title; }
+  
+  .in-progress-title { grid-area: in-progress-title; }
+  
+  .done-title { grid-area: done-title; }
+  
+  .new-swimlane { grid-area: new-swimlane; }
+  
+  .in-progress-swimlane { grid-area: in-progress-swimlane; }
+  
+  .done-swimlane { grid-area: done-swimlane; }
+  
+  .title{
+    text-align: center;
+  }

@@ -4,7 +4,7 @@
 # Setup
 
 - Install json-server globally `npm install -g json-server lite-server`
-- npm install
+- npm install (to install packages listed in the package.json)
 
 # Run
 
