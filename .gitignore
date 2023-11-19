@@ -1,2 +1,7 @@
 **/.DS_Store
 node_modules
+.idea/
+.idea/inspectionProfiles/Project_Default.xml
+.idea/kanbaknockout.iml
+.idea/modules.xml
+.idea/vcs.xml

@@ -1,12 +1,8 @@
 
 
-function AppViewModel(params) {
+function AppViewModel() {
     const self = this;
     self.message = ko.observable('Just getting started...');
-    self.cats = params.cats;    // from the state object, see mapStateToParams below
-    self.selectCat = function(cat) {
-        params.selectedCat(cat);    // also from the state object
-    }
 
 }
 
@@ -44,4 +40,3 @@ async function fetchFromApi({ url, method = 'GET', postData = undefined }) {
   }
 
 
-  
