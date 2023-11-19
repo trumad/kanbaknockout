@@ -12,7 +12,7 @@ var appViewModel = new AppViewModel();
 ko.applyBindings(appViewModel);
 
 
-
+// eslint-disable-next-line
 async function fetchTodos(){
     return await fetchFromApi({url: "http://localhost:3000/todos"});
 }

@@ -10,6 +10,10 @@
 
 Use `make run` to launch the json server and the http server
 
+# Lint
+
+Run `npm run lint:fix` to run lint locally
+
 # API
 
 1. Install [Bruno](https://www.usebruno.com/downloads)
