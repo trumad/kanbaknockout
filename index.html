@@ -6,8 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KanbaKnockout</title>
 
-    <script src="/js/knockout.js"></script>
-    <script src="js/kanbaknockout.js"></script>
+    <script src="node_modules/knockout/build/output/knockout-latest.js"></script>
+    <script src="node_modules/knockout-store/dist/knockout-store.min.js"></script>
+    
     <link rel="stylesheet" href="styles/main.css">
 </head>
 <body>
@@ -17,14 +18,17 @@
 
     <div data-bind="text: message"></div>
 
-    <script>
-        function AppViewModel() {
-            this.message = ko.observable('Just getting started...');
-        }
 
-        var appViewModel = new AppViewModel();
-        ko.applyBindings(appViewModel);
-    </script>
+    <div class="kanban-container">
+        <div class="title new-title">New</div>
+        <div class="title in-progress-title">In Progress</div>
+        <div class="title done-title">Done</div>
+        <div class="new-swimlane"></div>
+        <div class="in-progress-swimlane"></div>
+        <div class="done-swimlane"></div>
+    </div>
 
+
+    <script src="js/kanbaknockout.js"></script>
 </body>
 </html>
