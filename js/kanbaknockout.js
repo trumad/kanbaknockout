@@ -1,13 +1,3 @@
-// main.js or wherever you initialize your app
-import ko from 'knockout';
-import { setState, connect } from 'knockout-store';
-
-const state = {
-    todos: ko.observableArray([]),
-    selectedTodo: ko.observable(),
-};
-
-setState(state);
 
 function TodoViewModel(id, content, status) {
     const self = this;
