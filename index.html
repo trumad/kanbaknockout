@@ -26,7 +26,7 @@
         <div class="title done-title">Done</div>
         <div class="swimlane">
             <ul data-bind="foreach: filteredTodos('new')" id="new-swimlane">
-                <li data-bind="attr: { itemId: id }, click: startEditing">
+                <li data-bind="attr: { itemid: id, itemstatus: status }, click: startEditing">
                     <!-- Use `click` event to toggle editing flag -->
                     <span data-bind="text: editing() ? '' : content, visible: !editing(), click: startEditing" class=".item-text"></span>
                     <!-- Use a form to handle submit event -->
@@ -38,7 +38,7 @@
         </div>
         <div class="swimlane">
             <ul data-bind="foreach: filteredTodos('in_progress')" id="in_progress-swimlane">
-                <li data-bind="attr: { itemId: id }, click: startEditing">
+                <li data-bind="attr: { itemid: id, itemstatus: status }, click: startEditing">
                     <!-- Use `click` event to toggle editing flag -->
                     <span data-bind="text: editing() ? '' : content, visible: !editing(), click: startEditing" class=".item-text"></span>
                     <!-- Use a form to handle submit event -->
@@ -50,7 +50,7 @@
         </div>
         <div class="swimlane">
             <ul data-bind="foreach: filteredTodos('done')" id="done-swimlane">
-                <li data-bind="attr: { itemId: id }, click: startEditing">
+                <li data-bind="attr: { itemid: id, itemstatus: status }, click: startEditing">
                     <!-- Use `click` event to toggle editing flag -->
                     <span data-bind="text: editing() ? '' : content, visible: !editing(), click: startEditing" class=".item-text"></span>
                     <!-- Use a form to handle submit event -->

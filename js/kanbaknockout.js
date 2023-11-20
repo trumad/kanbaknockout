@@ -28,11 +28,16 @@ function AppViewModel() {
     const self = this;
     self.message = ko.observable('Just getting started...');
     self.todos = ko.observableArray();
+    self.ordering = ko.observableArray();
 
     self.createNewTodo = async function () {
-        self.message("arse");
         await self.createTodo({ content: "" });
     };
+
+    self.syncOrdering = async function (){
+        const ordering = await fetchOrdering();
+        self.ordering(ordering);
+    }
 
     self.syncTodos = async function () {
         const serverTodos = await fetchTodos();
@@ -48,53 +53,97 @@ function AppViewModel() {
         }
     };
 
+    self.updateOrdering = async function (ordering){
+        const patchedOrdering = await updateOrdering(ordering);
+        if (patchedOrdering){
+            self.ordering(patchedOrdering);
+        }
+    }
+
     self.patchTodo = async function (updatedTodo) {
         const patchedTodo = await patchTodo(updatedTodo);
         if (patchedTodo) {
             const existingTodo = self.todos().find(todo => todo.id() === patchedTodo.id);
-            existingTodo.id(patchedTodo.id);
             existingTodo.content(patchedTodo.content);
             existingTodo.status(patchedTodo.status);
-            console.log(existingTodo);
         }
     };
 
+    self.orderedTodos = ko.computed(function () {
+        const ordering = self.ordering();
+        return self.todos().slice().sort(function (a, b) {
+            const aIndex = ordering.indexOf(a.id());
+            const bIndex = ordering.indexOf(b.id());
+            return aIndex - bIndex;
+        });
+    });
+
     self.filteredTodos = function (status) {
         return ko.computed(function () {
-            return ko.utils.arrayFilter(self.todos(), function (todo) {
+            return ko.utils.arrayFilter(self.orderedTodos(), function (todo) {
                 return todo.status() === status;
             });
         });
     };
 
-    self.syncTodos();
+    self.syncData = async function () {
+        await self.syncOrdering();
+        await self.syncTodos();
+    };
+
+    self.syncData();
+
+    dragula([
+        document.querySelector("#new-swimlane"),
+        document.querySelector("#in_progress-swimlane"),
+        document.querySelector("#done-swimlane"),
+
+    ])
+        // .on("drag", function(el) {
+        //
+        // })
+        .on("drop", async function(el, source) {
+            console.log(el);
+            console.log(source);
+            const oldStatus = el.getAttribute("itemstatus");
+            const id = el.getAttribute("itemid");
+            const newStatus = source.id.split("-swimlane")[0];
+            const newOrdering = calculateCurrentOrdering();
+            await self.updateOrdering(newOrdering);
+            await self.patchTodo({id, status: newStatus});
+            if (oldStatus !== newStatus){
+                el.remove();
+            }
+        })
+    // .on("over", function(el, container) {
+    // })
+    // .on("out", function(el, container) {
+    // });
+
 }
 
 var appViewModel = new AppViewModel();
 ko.applyBindings(appViewModel);
 
-dragula([
-    document.querySelector("#new-swimlane"),
-    document.querySelector("#in_progress-swimlane"),
-    document.querySelector("#done-swimlane"),
+function calculateCurrentOrdering(){
+    let ordering = [];
+    const allTodos = document.querySelectorAll("li");
+    for (let el of allTodos){
+        const id = el.getAttribute("itemid");
+        ordering.push(Number(id));
+    }
+    return ordering;
+}
 
-])
-    // .on("drag", function(el) {
-    //
-    // })
-    .on("drop", function(el, source) {
-        console.log(el);
-        console.log(source);
-        const id = el.getAttribute("itemId");
-        console.log(id);
-        const newStatus = source.id.split("-swimlane")[0];
-        console.log(newStatus)
-        patchTodo({id, status: newStatus});
-    })
-    // .on("over", function(el, container) {
-    // })
-    // .on("out", function(el, container) {
-    // });
+async function fetchOrdering(){
+    const ordering = await fetchRequestToApi({ url: "http://localhost:3003/ordering" });
+    return ordering.order;
+}
+
+async function updateOrdering(orderingArray){
+    const response = await fetchRequestToApi({url: "http://localhost:3003/ordering", method: "PATCH", postData: {order: orderingArray}});
+    return response.order;
+}
 
 async function fetchTodos() {
     return await fetchRequestToApi({ url: "http://localhost:3003/todos" });
