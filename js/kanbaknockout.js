@@ -1,4 +1,3 @@
-
 function TodoViewModel(id, content, status) {
     const self = this;
     self.id = ko.observable(id);
@@ -24,10 +23,6 @@ function TodoViewModel(id, content, status) {
         });
     };
 }
-
-
-
-
 
 function AppViewModel() {
     const self = this;
@@ -64,11 +59,42 @@ function AppViewModel() {
         }
     };
 
+    self.filteredTodos = function (status) {
+        return ko.computed(function () {
+            return ko.utils.arrayFilter(self.todos(), function (todo) {
+                return todo.status() === status;
+            });
+        });
+    };
+
     self.syncTodos();
 }
 
 var appViewModel = new AppViewModel();
 ko.applyBindings(appViewModel);
+
+dragula([
+    document.querySelector("#new-swimlane"),
+    document.querySelector("#in_progress-swimlane"),
+    document.querySelector("#done-swimlane"),
+
+])
+    // .on("drag", function(el) {
+    //
+    // })
+    .on("drop", function(el, source) {
+        console.log(el);
+        console.log(source);
+        const id = el.getAttribute("itemId");
+        console.log(id);
+        const newStatus = source.id.split("-swimlane")[0];
+        console.log(newStatus)
+        patchTodo({id, status: newStatus});
+    })
+    // .on("over", function(el, container) {
+    // })
+    // .on("out", function(el, container) {
+    // });
 
 async function fetchTodos() {
     return await fetchRequestToApi({ url: "http://localhost:3003/todos" });

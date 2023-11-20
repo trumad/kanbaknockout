@@ -24,11 +24,11 @@
         </div>
         <div class="title in-progress-title">In Progress</div>
         <div class="title done-title">Done</div>
-        <div class="new-swimlane">
-            <ul data-bind="foreach: todos">
-                <li>
+        <div class="swimlane">
+            <ul data-bind="foreach: filteredTodos('new')" id="new-swimlane">
+                <li data-bind="attr: { itemId: id }, click: startEditing">
                     <!-- Use `click` event to toggle editing flag -->
-                    <span data-bind="text: editing() ? '' : content, visible: !editing(), click: startEditing"></span>
+                    <span data-bind="text: editing() ? '' : content, visible: !editing(), click: startEditing" class=".item-text"></span>
                     <!-- Use a form to handle submit event -->
                     <form data-bind="visible: editing, submit: stopEditing">
                         <input type="text" data-bind="value: content, attr: { placeholder: 'Type here...' }, hasFocus: editing" />
@@ -36,19 +36,36 @@
                 </li>
             </ul>
         </div>
-        <div class="in-progress-swimlane"></div>
-        <div class="done-swimlane"></div>
+        <div class="swimlane">
+            <ul data-bind="foreach: filteredTodos('in_progress')" id="in_progress-swimlane">
+                <li data-bind="attr: { itemId: id }, click: startEditing">
+                    <!-- Use `click` event to toggle editing flag -->
+                    <span data-bind="text: editing() ? '' : content, visible: !editing(), click: startEditing" class=".item-text"></span>
+                    <!-- Use a form to handle submit event -->
+                    <form data-bind="visible: editing, submit: stopEditing">
+                        <input type="text" data-bind="value: content, attr: { placeholder: 'Type here...' }, hasFocus: editing" />
+                    </form>
+                </li>
+            </ul>
+        </div>
+        <div class="swimlane">
+            <ul data-bind="foreach: filteredTodos('done')" id="done-swimlane">
+                <li data-bind="attr: { itemId: id }, click: startEditing">
+                    <!-- Use `click` event to toggle editing flag -->
+                    <span data-bind="text: editing() ? '' : content, visible: !editing(), click: startEditing" class=".item-text"></span>
+                    <!-- Use a form to handle submit event -->
+                    <form data-bind="visible: editing, submit: stopEditing">
+                        <input type="text" data-bind="value: content, attr: { placeholder: 'Type here...' }, hasFocus: editing" />
+                    </form>
+                </li>
+            </ul>
+        </div>
     </div>
 
 
 
 
-
-
-
-
-
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dragula/3.7.2/dragula.js"></script>
     <script src="js/kanbaknockout.js"></script>
 </body>
 </html>
