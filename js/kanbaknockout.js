@@ -26,9 +26,15 @@ function TodoViewModel(id, content, status) {
 
 function AppViewModel() {
     const self = this;
-    self.message = ko.observable('Just getting started...');
+    self.buttonText = ko.observable("Compact");
     self.todos = ko.observableArray();
     self.ordering = ko.observableArray();
+
+    self.compactCards = ko.observable(true);
+
+    self.toggleCompact = function (){
+        self.compactCards(!self.compactCards())
+    }
 
     self.createNewTodo = async function () {
         await self.createTodo({ content: "" });

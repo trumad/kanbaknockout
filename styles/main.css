@@ -1,5 +1,5 @@
 .kanban-container {  display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr);
     grid-template-rows: 1fr 24fr;
     gap: 0px 0px;
     grid-auto-flow: row;
@@ -28,21 +28,14 @@ ul {
     list-style-type: none;
     margin: 2em;
     padding: 2em;
-    height: 50em;
+    height: 40em;
     border: solid black;
     overflow-y: scroll;
 }
 
-li {
-    list-style-type: none;
-}
-
-
 li{
     justify-content: center;
-    list-style-type: none;
     background: #fff;
-    -webkit-transition: all 0.3s;
     transition: all 0.3s;
     margin: 0.4rem;
     height: 4rem;
@@ -51,9 +44,18 @@ li{
     cursor: move;
     text-align: center;
     vertical-align: middle;
+    overflow: scroll;
 }
 
 .item-text{
     cursor: text;
-    color: red;
 }
+
+
+.compact{
+    color: red;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
