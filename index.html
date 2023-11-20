@@ -18,15 +18,35 @@
 
     <div data-bind="text: message"></div>
 
-
     <div class="kanban-container">
-        <div class="title new-title">New</div>
+        <div class="title new-title">New
+            <button data-bind="click: createNewTodo">Create</button>
+        </div>
         <div class="title in-progress-title">In Progress</div>
         <div class="title done-title">Done</div>
-        <div class="new-swimlane"></div>
+        <div class="new-swimlane">
+            <ul data-bind="foreach: todos">
+                <li>
+                    <!-- Use `click` event to toggle editing flag -->
+                    <span data-bind="text: editing() ? '' : content, visible: !editing(), click: startEditing"></span>
+                    <!-- Use a form to handle submit event -->
+                    <form data-bind="visible: editing, submit: stopEditing">
+                        <input type="text" data-bind="value: content, attr: { placeholder: 'Type here...' }, hasFocus: editing" />
+                    </form>
+                </li>
+            </ul>
+        </div>
         <div class="in-progress-swimlane"></div>
         <div class="done-swimlane"></div>
     </div>
+
+
+
+
+
+
+
+
 
 
     <script src="js/kanbaknockout.js"></script>
