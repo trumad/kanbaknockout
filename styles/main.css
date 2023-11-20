@@ -23,3 +23,37 @@
   .title{
     text-align: center;
   }
+
+ul {
+    list-style-type: none;
+    margin: 2em;
+    padding: 2em;
+    height: 50em;
+    border: solid black;
+    overflow-y: scroll;
+}
+
+li {
+    list-style-type: none;
+}
+
+
+li{
+    justify-content: center;
+    list-style-type: none;
+    background: #fff;
+    -webkit-transition: all 0.3s;
+    transition: all 0.3s;
+    margin: 0.4rem;
+    height: 4rem;
+    border: #000013 0.15rem solid;
+    border-radius: 0.2rem;
+    cursor: move;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.item-text{
+    cursor: text;
+    color: red;
+}

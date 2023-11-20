@@ -6,7 +6,8 @@ module.exports = {
     },
     "extends": "eslint:recommended",
     "globals": {
-        "ko": true
+        "ko": true,
+        "dragula": true
     },
     "overrides": [
         {

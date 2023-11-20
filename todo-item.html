@@ -1,0 +1,6 @@
+<li>
+    <span data-bind="text: editing() ? '' : content, visible: !editing(), click: startEditing"></span>
+    <form data-bind="visible: editing, submit: stopEditing">
+        <input type="text" data-bind="value: content, attr: { placeholder: 'Type here...' }, hasFocus: editing" />
+    </form>
+</li>
