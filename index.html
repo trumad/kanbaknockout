@@ -47,7 +47,6 @@
                             </textarea>
                         </form>
                     </div>
-
                 </li>
             </ul>
         </div>
@@ -59,7 +58,10 @@
                         <span data-bind="text: editing() ? '' : content, visible: !editing()" class="item-text"></span>
                         <!-- Use a form to handle submit event -->
                         <form data-bind="visible: editing, submit: stopEditing">
-                            <textarea class="card-input" data-bind="value: content, attr: { placeholder: 'Type here...' }, hasFocus: editing, event: { keypress: handleKeyPress }">
+                            <textarea class="card-input" data-bind="value: content,
+                            attr: { placeholder: 'Type here...' },
+                            hasFocus: editing,
+                            event: { keypress: handleKeyPress, blur: stopEditing }">
                             </textarea>
                         </form>
                     </div>
@@ -74,7 +76,10 @@
                         <span data-bind="text: editing() ? '' : content, visible: !editing()" class="item-text"></span>
                         <!-- Use a form to handle submit event -->
                         <form data-bind="visible: editing, submit: stopEditing">
-                            <textarea class="card-input" data-bind="value: content, attr: { placeholder: 'Type here...' }, hasFocus: editing, event: { keypress: handleKeyPress }">
+                            <textarea class="card-input" data-bind="value: content,
+                            attr: { placeholder: 'Type here...' },
+                            hasFocus: editing,
+                            event: { keypress: handleKeyPress, blur: stopEditing }">
                             </textarea>
                         </form>
                     </div>
@@ -87,6 +92,8 @@
 
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dragula/3.7.2/dragula.js"></script>
+    <script src="js/apiRequests.js"></script>
+    <script src="js/knockoutLocalStorage.js"></script>
     <script src="js/kanbaknockout.js"></script>
 </body>
 </html>
