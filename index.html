@@ -15,15 +15,20 @@
 
 
     <div class="header">
-        <h1>KanbaKnockout</h1>
-
-        <button data-bind="text: buttonText, click: toggleCompact"></button>
+        <div class="logo">KanbaKnockout</div>
+        <div class="header-right">
+            <span class="compact-label">Compact: </span>
+            <label class="switch">
+                <input type="checkbox" data-bind="checked: compactCards">
+                <span class="slider round"></span>
+            </label>
+        </div>
     </div>
 
 
     <div class="kanban-container">
         <div class="title new-title">New
-            <button data-bind="click: createNewTodo">Create</button>
+            <button data-bind="click: createNewTodo" class="create-button">Create</button>
         </div>
         <div class="title in_progress-title">In Progress</div>
         <div class="title done-title">Done</div>
@@ -35,7 +40,10 @@
                         <span data-bind="text: editing() ? '' : content, visible: !editing()" class="item-text"></span>
                         <!-- Use a form to handle submit event -->
                         <form data-bind="visible: editing, submit: stopEditing">
-                            <textarea class="card-input" data-bind="value: content, attr: { placeholder: 'Type here...' }, hasFocus: editing, event: { keypress: handleKeyPress }">
+                            <textarea class="card-input" data-bind="value: content,
+                            attr: { placeholder: 'Type here...' },
+                            hasFocus: editing,
+                            event: { keypress: handleKeyPress, blur: stopEditing }">
                             </textarea>
                         </form>
                     </div>
@@ -51,7 +59,8 @@
                         <span data-bind="text: editing() ? '' : content, visible: !editing()" class="item-text"></span>
                         <!-- Use a form to handle submit event -->
                         <form data-bind="visible: editing, submit: stopEditing">
-                            <input class="card-input" type="text" data-bind="value: content, attr: { placeholder: 'Type here...' }, hasFocus: editing" />
+                            <textarea class="card-input" data-bind="value: content, attr: { placeholder: 'Type here...' }, hasFocus: editing, event: { keypress: handleKeyPress }">
+                            </textarea>
                         </form>
                     </div>
                 </li>
@@ -65,7 +74,8 @@
                         <span data-bind="text: editing() ? '' : content, visible: !editing()" class="item-text"></span>
                         <!-- Use a form to handle submit event -->
                         <form data-bind="visible: editing, submit: stopEditing">
-                            <input class="card-input" type="text" data-bind="value: content, attr: { placeholder: 'Type here...' }, hasFocus: editing" />
+                            <textarea class="card-input" data-bind="value: content, attr: { placeholder: 'Type here...' }, hasFocus: editing, event: { keypress: handleKeyPress }">
+                            </textarea>
                         </form>
                     </div>
                 </li>

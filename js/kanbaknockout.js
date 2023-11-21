@@ -116,10 +116,14 @@ function AppViewModel() {
         document.querySelector("#done-swimlane"),
 
     ])
-        // .on("drag", function(el) {
-        //
-        // })
+        .on("drag", function(el) {
+            el.classList.add('is-moving');
+        })
+        .on("dragend", function(el) {
+            el.classList.remove('is-moving');
+        })
         .on("drop", async function(el, source) {
+            el.classList.remove('is-moving');
             console.log(el);
             console.log(source);
             const oldStatus = el.getAttribute("itemstatus");
@@ -132,10 +136,12 @@ function AppViewModel() {
                 el.remove();
             }
         })
-    // .on("over", function(el, container) {
-    // })
-    // .on("out", function(el, container) {
-    // });
+    .on("over", function(el, container) {
+        container.className += "ex-over";
+    })
+    .on("out", function(el, container) {
+        container.className.replace("ex-over", "");
+    });
 
 }
 
