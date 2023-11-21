@@ -51,17 +51,17 @@ function AppViewModel() {
     };
 
     self.syncOrdering = async function (){
-        const ordering = await fetchOrdering();
+        const ordering = await fetchOrdering(); // eslint-disable-line
         self.ordering(ordering);
     }
 
     self.syncTodos = async function () {
-        const serverTodos = await fetchTodos();
+        const serverTodos = await fetchTodos(); // eslint-disable-line
         self.todos(serverTodos.map(todo => new TodoViewModel(todo.id, todo.content, todo.status)));
     };
 
     self.createTodo = async function ({ content }) {
-        const newTodo = await createTodo({ content });
+        const newTodo = await createTodo({ content }); // eslint-disable-line
         if (newTodo) {
             const newTodoViewModel = new TodoViewModel(newTodo.id, newTodo.content, newTodo.status);
             self.todos.push(newTodoViewModel);
@@ -70,14 +70,14 @@ function AppViewModel() {
     };
 
     self.updateOrdering = async function (ordering){
-        const patchedOrdering = await updateOrdering(ordering);
+        const patchedOrdering = await updateOrdering(ordering); // eslint-disable-line
         if (patchedOrdering){
             self.ordering(patchedOrdering);
         }
     }
 
     self.patchTodo = async function (updatedTodo) {
-        const patchedTodo = await patchTodo(updatedTodo);
+        const patchedTodo = await patchTodo(updatedTodo); // eslint-disable-line
         if (patchedTodo) {
             const existingTodo = self.todos().find(todo => todo.id() === patchedTodo.id);
             existingTodo.content(patchedTodo.content);
