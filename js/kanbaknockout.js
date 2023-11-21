@@ -22,6 +22,17 @@ function TodoViewModel(id, content, status) {
             status: self.status(),
         });
     };
+
+    self.handleKeyPress = function (data, event) {
+        // Check if the pressed key is Enter (keyCode 13)
+        if (event.keyCode === 13 && !event.metaKey && !event.shiftKey) {
+            // Submit the form or perform any other action
+            // For example, you can call a function to handle form submission
+            self.stopEditing();
+        }
+        // Allow the default behavior for other keys
+        return true;
+    };
 }
 
 function AppViewModel() {
@@ -30,7 +41,7 @@ function AppViewModel() {
     self.todos = ko.observableArray();
     self.ordering = ko.observableArray();
 
-    self.compactCards = ko.observable(true);
+    self.compactCards = ko.observable(false);
 
     self.toggleCompact = function (){
         self.compactCards(!self.compactCards())
