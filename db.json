@@ -2,13 +2,13 @@
   "todos": [
     {
       "id": 1,
-      "content": "test todo",
-      "status": "in_progress",
+      "content": "Test todo",
+      "status": "new",
       "position": 1
     },
     {
-      "content": "new todo",
-      "status": "new",
+      "content": "in progress todo",
+      "status": "in_progress",
       "id": 2
     },
     {
@@ -25,16 +25,28 @@
       "content": "third",
       "status": "done",
       "id": 5
+    },
+    {
+      "content": "A todo with a very long text string that will cause overflow, but only when compact",
+      "status": "in_progress",
+      "id": 6
+    },
+    {
+      "content": "A todo\n\nWith a newline",
+      "status": "in_progress",
+      "id": 7
     }
   ],
   "ordering": {
     "order": [
-      2,
       1,
+      2,
+      6,
+      7,
       3,
       4,
       5,
-      4
+      7
     ]
   }
 }

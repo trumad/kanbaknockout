@@ -22,30 +22,46 @@ function TodoViewModel(id, content, status) {
             status: self.status(),
         });
     };
+
+    self.handleKeyPress = function (data, event) {
+        // Check if the pressed key is Enter (keyCode 13)
+        if (event.keyCode === 13 && !event.metaKey && !event.shiftKey) {
+            // Submit the form or perform any other action
+            // For example, you can call a function to handle form submission
+            self.stopEditing();
+        }
+        // Allow the default behavior for other keys
+        return true;
+    };
 }
 
 function AppViewModel() {
     const self = this;
-    self.message = ko.observable('Just getting started...');
     self.todos = ko.observableArray();
     self.ordering = ko.observableArray();
+
+    self.compactCards = ko.observable(false, {persist: 'compactDisplay'});
+
+    self.toggleCompact = function (){
+        self.compactCards(!self.compactCards())
+    }
 
     self.createNewTodo = async function () {
         await self.createTodo({ content: "" });
     };
 
     self.syncOrdering = async function (){
-        const ordering = await fetchOrdering();
+        const ordering = await fetchOrdering(); // eslint-disable-line
         self.ordering(ordering);
     }
 
     self.syncTodos = async function () {
-        const serverTodos = await fetchTodos();
+        const serverTodos = await fetchTodos(); // eslint-disable-line
         self.todos(serverTodos.map(todo => new TodoViewModel(todo.id, todo.content, todo.status)));
     };
 
     self.createTodo = async function ({ content }) {
-        const newTodo = await createTodo({ content });
+        const newTodo = await createTodo({ content }); // eslint-disable-line
         if (newTodo) {
             const newTodoViewModel = new TodoViewModel(newTodo.id, newTodo.content, newTodo.status);
             self.todos.push(newTodoViewModel);
@@ -54,14 +70,14 @@ function AppViewModel() {
     };
 
     self.updateOrdering = async function (ordering){
-        const patchedOrdering = await updateOrdering(ordering);
+        const patchedOrdering = await updateOrdering(ordering); // eslint-disable-line
         if (patchedOrdering){
             self.ordering(patchedOrdering);
         }
     }
 
     self.patchTodo = async function (updatedTodo) {
-        const patchedTodo = await patchTodo(updatedTodo);
+        const patchedTodo = await patchTodo(updatedTodo); // eslint-disable-line
         if (patchedTodo) {
             const existingTodo = self.todos().find(todo => todo.id() === patchedTodo.id);
             existingTodo.content(patchedTodo.content);
@@ -92,19 +108,27 @@ function AppViewModel() {
     };
 
     self.syncData();
+    dragulaHelper(self);
 
+}
+
+var appViewModel = new AppViewModel();
+ko.applyBindings(appViewModel);
+
+function dragulaHelper(self){
     dragula([
         document.querySelector("#new-swimlane"),
         document.querySelector("#in_progress-swimlane"),
         document.querySelector("#done-swimlane"),
 
     ])
-        // .on("drag", function(el) {
-        //
-        // })
+        .on("drag", function(el) {
+            el.classList.add('is-moving');
+        })
+        .on("dragend", function(el) {
+            el.classList.remove('is-moving');
+        })
         .on("drop", async function(el, source) {
-            console.log(el);
-            console.log(source);
             const oldStatus = el.getAttribute("itemstatus");
             const id = el.getAttribute("itemid");
             const newStatus = source.id.split("-swimlane")[0];
@@ -114,16 +138,8 @@ function AppViewModel() {
             if (oldStatus !== newStatus){
                 el.remove();
             }
-        })
-    // .on("over", function(el, container) {
-    // })
-    // .on("out", function(el, container) {
-    // });
-
+        });
 }
-
-var appViewModel = new AppViewModel();
-ko.applyBindings(appViewModel);
 
 function calculateCurrentOrdering(){
     let ordering = [];
@@ -135,56 +151,5 @@ function calculateCurrentOrdering(){
     return ordering;
 }
 
-async function fetchOrdering(){
-    const ordering = await fetchRequestToApi({ url: "http://localhost:3003/ordering" });
-    return ordering.order;
-}
-
-async function updateOrdering(orderingArray){
-    const response = await fetchRequestToApi({url: "http://localhost:3003/ordering", method: "PATCH", postData: {order: orderingArray}});
-    return response.order;
-}
-
-async function fetchTodos() {
-    return await fetchRequestToApi({ url: "http://localhost:3003/todos" });
-}
-
-async function createTodo({content = ""}) {
-    const postData = {
-        content,
-        status: "new"
-    }
-    return await fetchRequestToApi({ url: "http://localhost:3003/todos", method: "POST", postData });
-}
-
-async function patchTodo({id, content, status}) {
-    const patchData = {
-        content,
-        status
-    }
-    return await fetchRequestToApi({ url: `http://localhost:3003/todos/${id}`, method: "PATCH", postData: patchData });
-}
-
-async function fetchRequestToApi({ url, method = 'GET', postData = undefined }) {
-    try {
-      const response = await fetch(url, {
-        method,
-        headers: {
-          'Content-Type': 'application/json', 
-        },
-        body: postData ? JSON.stringify(postData) : undefined,
-      });
-  
-      if (!response.ok) {
-        throw new Error(`Error: ${response.status} - ${response.statusText}`);
-      }
-  
-      const data = await response.json();
-      return data;
-    } catch (error) {
-      console.error('Error fetching data:', error.message);
-      throw error; 
-    }
-  }
 
 
